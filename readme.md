@@ -1,6 +1,6 @@
-# ☕ JAVA BOILERPLATE
+# 🥗 Oipie api-core
 
-This is a Work in Progress Boilerplate for java.
+This is a Work in Progress replication of the existing api-core service for oipie implemented in Java.
 
 ## Prerequisites
 
@@ -64,14 +64,4 @@ This is a Work in Progress Boilerplate for java.
 
 - [ ]  CI/CD
 
-### Known Issues
-
-- [ ]  Should the application layer receive the DTO?
-- [ ]  Teardown of tests not always works as expected
-- [ ]  Memory implementation injects h2 (even though is not used)
-
-### Questions and roadmap
-
-- [ ]  Currently, we must use Spring-boot `2.7.3` to be able to be compatible with liquibase.
-  when possible we should upgrade to Spring-boot `3.0.0`
 
