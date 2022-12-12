@@ -16,9 +16,11 @@ public record ApiError(
         String message) {
 
     private static final Map<DomainErrorCode, HttpStatus> DOMAIN_ERROR_CODE_HTTP_STATUS_MAP = new HashMap<>() {{
-        put(DomainErrorCode.NOT_ALLOWED_PHONE_ERROR, HttpStatus.BAD_REQUEST);
-        put(DomainErrorCode.INVALID_USER_NAME, HttpStatus.BAD_REQUEST);
-        put(DomainErrorCode.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
+        put(DomainErrorCode.EMAIL_ALREADY_IN_USE, HttpStatus.BAD_REQUEST);
+        put(DomainErrorCode.INVALID_EMAIL, HttpStatus.BAD_REQUEST);
+        put(DomainErrorCode.INVALID_PASSWORD, HttpStatus.BAD_REQUEST);
+        put(DomainErrorCode.LOGIN_FAILED, HttpStatus.UNAUTHORIZED);
+        put(DomainErrorCode.NICKNAME_ALREADY_IN_USE, HttpStatus.BAD_REQUEST);
     }};
 
     public static ApiError create(DomainError domainError, LocalDateTime timestamp) {
