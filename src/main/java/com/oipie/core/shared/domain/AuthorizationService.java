@@ -5,13 +5,13 @@ import com.oipie.core.users.domain.UserId;
 public interface AuthorizationService {
 
 
-    Password hashPassword(String password) throws DomainError;
+    Password hashPassword(String password);
 
     boolean verifyPassword(Password password, String attempt);
 
     String createJWT(UserId userId);
 
-    boolean verifyJWT();
+    boolean verifyJWT(String jwt);
 }
 
 

@@ -1,9 +1,11 @@
 package com.oipie.core.users.application;
 
 
+import com.oipie.core.shared.domain.AuthorizationService;
 import com.oipie.core.shared.domain.DomainError;
 import com.oipie.core.shared.domain.IDService;
-import com.oipie.core.shared.domain.AuthorizationService;
+import com.oipie.core.shared.domain.Password;
+import com.oipie.core.shared.domain.errors.InvalidPassword;
 import com.oipie.core.users.domain.Email;
 import com.oipie.core.users.domain.User;
 import com.oipie.core.users.domain.UserId;
@@ -33,6 +35,7 @@ public class UserCreator {
 
         if (this.userRepository.isNicknameInUse(nickname)) throw new NicknameAlreadyInUse(nickname);
 
+        if (!Password.isValid(password)) throw new InvalidPassword();
 
         User user = User.create(
                 UserId.fromString(this.idService.generateID()),

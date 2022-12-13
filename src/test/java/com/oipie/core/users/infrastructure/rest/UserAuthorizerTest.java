@@ -1,4 +1,4 @@
-package com.oipie.core.users;
+package com.oipie.core.users.infrastructure.rest;
 
 import com.oipie.core.TestInjectionConfiguration;
 import com.oipie.core.shared.domain.DomainErrorCode;
@@ -26,16 +26,18 @@ import static org.hamcrest.Matchers.notNullValue;
 @Transactional
 public class UserAuthorizerTest {
 
+    final String FAKE_EMAIL = LUIGI_PRIMITIVES.email();
+    final String FAKE_NICKNAME = LUIGI_PRIMITIVES.nickname();
+    final String FAKE_PASSWORD = LUIGI_PRIMITIVES.password();
     @LocalServerPort
     int port;
-
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @BeforeEach
-    public void execute(){
+    public void execute() {
         jdbcTemplate.execute("TRUNCATE TABLE users");
-        CreateUserRequestDTO request = new CreateUserRequestDTO(FAKE_EMAIL,FAKE_NICKNAME,FAKE_PASSWORD);
+        CreateUserRequestDTO request = new CreateUserRequestDTO(FAKE_EMAIL, FAKE_NICKNAME, FAKE_PASSWORD);
 
         ValidatableResponse response = RestAssured.given()
                 .basePath("/api")
@@ -48,14 +50,9 @@ public class UserAuthorizerTest {
         response.statusCode(HttpStatus.CREATED.value());
     }
 
-    final String FAKE_EMAIL = LUIGI_PRIMITIVES.email();
-    final String FAKE_NICKNAME = LUIGI_PRIMITIVES.nickname();
-    final String FAKE_PASSWORD = LUIGI_PRIMITIVES.password();
-
-
     @Test
     public void logins_a_new_user() {
-        LoginUserRequestDTO loginRequest = new LoginUserRequestDTO(FAKE_EMAIL,FAKE_PASSWORD);
+        LoginUserRequestDTO loginRequest = new LoginUserRequestDTO(FAKE_EMAIL, FAKE_PASSWORD);
 
         ValidatableResponse loginResponse = RestAssured.given()
                 .basePath("/api")
@@ -65,12 +62,12 @@ public class UserAuthorizerTest {
                 .post("/v1/users/login")
                 .then();
         loginResponse.statusCode(HttpStatus.OK.value());
-        loginResponse.body("jwt",notNullValue());
+        loginResponse.body("jwt", notNullValue());
     }
 
     @Test
     public void fails_if_password_is_not_correct() {
-        LoginUserRequestDTO loginRequest = new LoginUserRequestDTO(FAKE_EMAIL,"NON_VALID_PASSWORD");
+        LoginUserRequestDTO loginRequest = new LoginUserRequestDTO(FAKE_EMAIL, "NON_VALID_PASSWORD");
 
         ValidatableResponse loginResponse = RestAssured.given()
                 .basePath("/api")
@@ -80,12 +77,12 @@ public class UserAuthorizerTest {
                 .post("/v1/users/login")
                 .then();
         loginResponse.statusCode(HttpStatus.UNAUTHORIZED.value());
-        loginResponse.body("domainErrorCode",equalTo(DomainErrorCode.LOGIN_FAILED.name()));
+        loginResponse.body("domainErrorCode", equalTo(DomainErrorCode.LOGIN_FAILED.name()));
     }
 
     @Test
     public void fails_if_email_is_not_correct() {
-        LoginUserRequestDTO loginRequest = new LoginUserRequestDTO("non@valid.com",FAKE_PASSWORD);
+        LoginUserRequestDTO loginRequest = new LoginUserRequestDTO("non@valid.com", FAKE_PASSWORD);
 
         ValidatableResponse loginResponse = RestAssured.given()
                 .basePath("/api")
@@ -95,6 +92,6 @@ public class UserAuthorizerTest {
                 .post("/v1/users/login")
                 .then();
         loginResponse.statusCode(HttpStatus.UNAUTHORIZED.value());
-        loginResponse.body("domainErrorCode",equalTo(DomainErrorCode.LOGIN_FAILED.name()));
+        loginResponse.body("domainErrorCode", equalTo(DomainErrorCode.LOGIN_FAILED.name()));
     }
 }
