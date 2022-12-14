@@ -35,7 +35,7 @@ public class SharedInjectionConfiguration {
     }
 
     @Bean
-    public AuthorizationService passwordHasherService() {
+    public AuthorizationService authorizationService() {
         return new SpringAuthorizationService();
     }
 

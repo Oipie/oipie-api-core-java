@@ -47,10 +47,11 @@ public class SpringAuthorizationService implements AuthorizationService {
     @Override
     public boolean verifyJWT(String jwt) {
         try {
-            return (JWT.require(Algorithm.HMAC512(jwtSecretKey))
+            JWT.require(Algorithm.HMAC512(jwtSecretKey))
                     .withIssuer(DEFAULT_ISSUER)
                     .build()
-                    .verify(jwt) != null);
+                    .verify(jwt);
+            return true;
         } catch (Exception e) {
             return false;
         }
