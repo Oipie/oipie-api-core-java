@@ -2,7 +2,6 @@ package com.oipie.core.shared.domain;
 
 import com.oipie.core.shared.domain.ddd.ValueObject;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public class DomainId extends ValueObject {
@@ -11,10 +10,6 @@ public class DomainId extends ValueObject {
 
     protected DomainId(UUID domainId) {
         this.domainId = domainId;
-    }
-
-    public static DomainId fromString(String domainId) {
-        return new DomainId(UUID.fromString(domainId));
     }
 
     @Override
@@ -30,6 +25,6 @@ public class DomainId extends ValueObject {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.domainId);
+        return this.domainId.hashCode();
     }
 }

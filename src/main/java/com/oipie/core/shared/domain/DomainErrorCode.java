@@ -1,7 +1,9 @@
 package com.oipie.core.shared.domain;
 
 public enum DomainErrorCode {
-    INVALID_USER_NAME,
-    NOT_ALLOWED_PHONE_ERROR,
-    USER_NOT_FOUND
+    EMAIL_ALREADY_IN_USE,
+    INVALID_EMAIL,
+    INVALID_PASSWORD,
+    LOGIN_FAILED,
+    NICKNAME_ALREADY_IN_USE;
 }

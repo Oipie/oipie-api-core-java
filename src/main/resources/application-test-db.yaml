@@ -17,6 +17,9 @@ spring:
     show_sql: false
   liquibase:
     enabled: false
+authorization:
+  jwt:
+    secret: "oipie-secret-key"
 test:
   clockService: true
   uuidService: true

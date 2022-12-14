@@ -8,7 +8,6 @@ plugins {
 }
 
 
-
 apply from: './infra/liquibase.gradle'
 apply from: './infra/docker.gradle'
 apply from: './infra/test.gradle'
@@ -28,6 +27,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.postgresql:postgresql'
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
@@ -35,6 +35,9 @@ dependencies {
     testImplementation 'io.rest-assured:rest-assured:5.3.0'
     testImplementation 'io.rest-assured:xml-path:5.3.0'
     testImplementation 'com.h2database:h2'
+
+    //Project dependencies
+    implementation 'com.auth0:java-jwt:4.2.1'
 
 }
 

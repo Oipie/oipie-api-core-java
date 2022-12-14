@@ -3,3 +3,6 @@ test:
     memory: true
   clockService: true
   uuidService: true
+authorization:
+  jwt:
+    secret: "oipie-secret-key"
