@@ -23,12 +23,20 @@ public class RecipesCreatorTest extends BaseTestClient {
 
         CreateRecipeRequestDTO request = new CreateRecipeRequestDTO(FAKE_NAME, FAKE_PREPARATION_TIME, FAKE_COVER);
 
-        ValidatableResponse response = this.request()
+        ValidatableResponse firstResponse = this.request()
                 .body(request)
                 .post("/v1/recipes")
                 .then();
 
-        response.statusCode(HttpStatus.CREATED.value());
+        firstResponse.statusCode(HttpStatus.CREATED.value());
+
+        String recipeId = firstResponse.extract().body().path("id");
+
+        ValidatableResponse response = this.request()
+                .get("/v1/recipes/" + recipeId)
+                .then();
+
+        response.statusCode(HttpStatus.OK.value());
         response.body("name", equalTo(FAKE_NAME));
         response.body("preparationTime", equalTo(FAKE_PREPARATION_TIME));
         response.body("cover", equalTo(FAKE_COVER));

@@ -37,4 +37,10 @@ public class RecipeEntity {
         return recipeEntity;
     }
 
+    public Recipe toDomain() {
+        RecipePrimitives recipePrimitives = new RecipePrimitives(this.recipeId, this.name, this.preparationTime, this.cover);
+
+        return Recipe.fromPrimitives(recipePrimitives);
+    }
+
 }
