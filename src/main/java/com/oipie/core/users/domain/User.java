@@ -2,9 +2,10 @@ package com.oipie.core.users.domain;
 
 import com.oipie.core.shared.domain.DomainError;
 import com.oipie.core.shared.domain.Password;
+import com.oipie.core.shared.domain.ddd.Aggregate;
 import com.oipie.core.users.domain.primitives.UserPrimitives;
 
-public final class User {
+public final class User extends Aggregate {
 
     private final UserId userId;
 

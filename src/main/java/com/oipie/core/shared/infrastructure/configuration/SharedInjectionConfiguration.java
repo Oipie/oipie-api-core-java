@@ -3,10 +3,10 @@ package com.oipie.core.shared.infrastructure.configuration;
 
 import com.oipie.core.shared.domain.AuthorizationService;
 import com.oipie.core.shared.domain.ClockService;
-import com.oipie.core.shared.domain.IDService;
+import com.oipie.core.shared.domain.IdentificationService;
 import com.oipie.core.shared.infrastructure.auth.SpringAuthorizationService;
 import com.oipie.core.shared.infrastructure.clock.ClockServiceVanilla;
-import com.oipie.core.shared.infrastructure.identification.IDServiceVanilla;
+import com.oipie.core.shared.infrastructure.identification.IdentificationServiceVanilla;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,8 +22,8 @@ public class SharedInjectionConfiguration {
     }
 
     @Bean
-    public static IDService uuidService() {
-        return new IDServiceVanilla();
+    public static IdentificationService uuidService() {
+        return new IdentificationServiceVanilla();
     }
 
 

@@ -3,7 +3,7 @@ package com.oipie.core.users.application;
 
 import com.oipie.core.shared.domain.AuthorizationService;
 import com.oipie.core.shared.domain.DomainError;
-import com.oipie.core.shared.domain.IDService;
+import com.oipie.core.shared.domain.IdentificationService;
 import com.oipie.core.shared.domain.Password;
 import com.oipie.core.shared.domain.errors.InvalidPassword;
 import com.oipie.core.users.domain.Email;
@@ -19,13 +19,13 @@ public class UserCreator {
 
 
     private final AuthorizationService authorizationService;
-    private final IDService idService;
+    private final IdentificationService identificationService;
 
     private final UserRepository userRepository;
 
-    public UserCreator(AuthorizationService authorizationService, IDService idService, UserRepository userRepository) {
+    public UserCreator(AuthorizationService authorizationService, IdentificationService identificationService, UserRepository userRepository) {
         this.authorizationService = authorizationService;
-        this.idService = idService;
+        this.identificationService = identificationService;
         this.userRepository = userRepository;
     }
 
@@ -38,7 +38,7 @@ public class UserCreator {
         if (!Password.isValid(password)) throw new InvalidPassword();
 
         User user = User.create(
-                UserId.fromString(this.idService.generateID()),
+                UserId.fromString(this.identificationService.generateID()),
                 email,
                 nickname,
                 this.authorizationService.hashPassword(password)

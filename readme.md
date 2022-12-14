@@ -42,7 +42,7 @@ This is a Work in Progress replication of the existing api-core service for oipi
 >3. ``./gradlew liquibase update``
 >
 > ### WARNING
-> Due to a unresolved issue you must remove the line with content `-- liquibase formatted sql` that is generated with
+> Due to an unresolved issue you must remove the line with content `-- liquibase formatted sql` that is generated with
 > each migration
 
 ### Running tests
