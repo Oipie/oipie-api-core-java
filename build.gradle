@@ -8,7 +8,6 @@ plugins {
 }
 
 
-
 apply from: './infra/liquibase.gradle'
 apply from: './infra/docker.gradle'
 apply from: './infra/test.gradle'

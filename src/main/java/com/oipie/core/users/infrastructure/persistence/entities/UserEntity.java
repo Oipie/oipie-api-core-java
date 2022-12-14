@@ -3,7 +3,6 @@ package com.oipie.core.users.infrastructure.persistence.entities;
 
 import com.oipie.core.shared.domain.DomainError;
 import com.oipie.core.users.domain.User;
-import com.oipie.core.users.domain.UserId;
 import com.oipie.core.users.domain.primitives.UserPrimitives;
 
 import javax.persistence.Column;
@@ -19,10 +18,10 @@ public class UserEntity {
     @Column(name = "user_id", nullable = false)
     private String userId;
 
-    @Column(name = "email", nullable = false,unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "nickname", nullable = false,unique = true)
+    @Column(name = "nickname", nullable = false, unique = true)
     private String nickname;
 
     @Column(name = "password", nullable = false)
@@ -42,10 +41,10 @@ public class UserEntity {
     public User toDomain() throws DomainError {
         return User.fromPrimitives(
                 new UserPrimitives(
-                    userId,
-                    email,
-                    nickname,
-                    password
+                        userId,
+                        email,
+                        nickname,
+                        password
                 )
         );
     }

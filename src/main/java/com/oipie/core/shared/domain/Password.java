@@ -2,9 +2,9 @@ package com.oipie.core.shared.domain;
 
 import com.oipie.core.shared.domain.ddd.ValueObject;
 
-public class Password extends ValueObject {
+public final class Password extends ValueObject {
 
-    private final static int MINIMUM_LENGTH = 10;
+    private static final int MINIMUM_LENGTH = 10;
 
     private final String password;
 

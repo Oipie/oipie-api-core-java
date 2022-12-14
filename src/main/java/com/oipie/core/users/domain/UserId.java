@@ -4,7 +4,7 @@ import com.oipie.core.shared.domain.DomainId;
 
 import java.util.UUID;
 
-public class UserId extends DomainId {
+public final class UserId extends DomainId {
 
     private UserId(UUID domainId) {
         super(domainId);

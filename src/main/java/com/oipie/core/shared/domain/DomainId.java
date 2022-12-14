@@ -11,7 +11,7 @@ public class DomainId extends ValueObject {
     protected DomainId(UUID domainId) {
         this.domainId = domainId;
     }
-    
+
     @Override
     public String toString() {
         return this.domainId.toString();
