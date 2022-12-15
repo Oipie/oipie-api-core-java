@@ -1,6 +1,6 @@
 package com.oipie.core.shared.domain;
 
-public class DomainError extends Exception {
+public class DomainError extends RuntimeException {
 
     private final DomainErrorCode code;
 

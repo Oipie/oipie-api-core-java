@@ -1,6 +1,7 @@
 package com.oipie.core;
 
 
+import com.oipie.core.recipes.infrastructure.persistence.entities.RecipeEntity;
 import com.oipie.core.users.infrastructure.persistence.entities.UserEntity;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -25,10 +26,15 @@ public abstract class BaseTestClient {
     private JpaRepository<UserEntity, String> userRepository;
 
 
+    @Autowired
+    private JpaRepository<RecipeEntity, String> recipeRepository;
+
+
     @BeforeEach
     @BeforeTransaction
     public final void clearDatabase() {
         userRepository.deleteAll();
+        recipeRepository.deleteAll();
     }
 
 

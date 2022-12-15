@@ -9,7 +9,6 @@ import com.oipie.core.shared.domain.PageResult;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 public class RecipeRepositoryPostgres implements RecipeRepository {
@@ -34,16 +33,13 @@ public class RecipeRepositoryPostgres implements RecipeRepository {
     }
 
     @Override
-    public PageResult<Recipe> find(int page, int limit) throws DomainError {
+    public PageResult<Recipe> find(int page, int limit) {
         Page<RecipeEntity> recipesEntities = this.repository.findAll(PageRequest.of(page, limit));
 
-        ArrayList<Recipe> recipes = new ArrayList<>();
-        for (RecipeEntity recipeEntity : recipesEntities.getContent()) {
-            Recipe recipe = recipeEntity.toDomain();
-
-            recipes.add(recipe);
-        }
-
-        return PageResult.create(recipes, page, limit, recipesEntities.getTotalElements());
+        return PageResult.create(
+                recipesEntities.getContent().stream().map(RecipeEntity::toDomain).toList(),
+                page,
+                limit,
+                recipesEntities.getTotalElements());
     }
 }
