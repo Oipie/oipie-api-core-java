@@ -1,17 +1,17 @@
 package com.oipie.core.shared.infrastructure.identification;
 
-import com.oipie.core.shared.domain.IDService;
+import com.oipie.core.shared.domain.IdentificationService;
 
-public class IDServiceFake implements IDService {
+public class IdentificationServiceFake implements IdentificationService {
 
-    private int currentNumber;
     private static final String INITIAL_UUID = "00000000-0000-0000-0000-0000000000";
+    private int currentNumber;
 
-    public IDServiceFake(int currentNumber) {
+    public IdentificationServiceFake(int currentNumber) {
         this.currentNumber = currentNumber;
     }
 
-    public IDServiceFake() {
+    public IdentificationServiceFake() {
         this.currentNumber = 0;
     }
 

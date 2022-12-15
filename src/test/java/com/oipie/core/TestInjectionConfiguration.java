@@ -1,9 +1,9 @@
 package com.oipie.core;
 
 import com.oipie.core.shared.domain.ClockService;
-import com.oipie.core.shared.domain.IDService;
+import com.oipie.core.shared.domain.IdentificationService;
 import com.oipie.core.shared.infrastructure.clock.ClockServiceFake;
-import com.oipie.core.shared.infrastructure.identification.IDServiceFake;
+import com.oipie.core.shared.infrastructure.identification.IdentificationServiceFake;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -21,8 +21,8 @@ public class TestInjectionConfiguration {
     @Primary
     @Bean
     @ConditionalOnProperty("test.uuidService")
-    public static IDService uuidFakeService() {
-        return new IDServiceFake();
+    public static IdentificationService uuidFakeService() {
+        return new IdentificationServiceFake();
     }
 }
 
