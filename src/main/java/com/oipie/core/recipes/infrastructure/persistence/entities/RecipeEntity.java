@@ -2,6 +2,7 @@ package com.oipie.core.recipes.infrastructure.persistence.entities;
 
 import com.oipie.core.recipes.domain.Recipe;
 import com.oipie.core.recipes.domain.primitives.RecipePrimitives;
+import com.oipie.core.shared.domain.DomainError;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,7 +38,7 @@ public class RecipeEntity {
         return recipeEntity;
     }
 
-    public Recipe toDomain() {
+    public Recipe toDomain() throws DomainError {
         RecipePrimitives recipePrimitives = new RecipePrimitives(this.recipeId, this.name, this.preparationTime, this.cover);
 
         return Recipe.fromPrimitives(recipePrimitives);

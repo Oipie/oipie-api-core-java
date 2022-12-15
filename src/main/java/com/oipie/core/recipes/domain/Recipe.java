@@ -1,6 +1,7 @@
 package com.oipie.core.recipes.domain;
 
 import com.oipie.core.recipes.domain.primitives.RecipePrimitives;
+import com.oipie.core.shared.domain.DomainError;
 import com.oipie.core.shared.domain.ddd.Aggregate;
 
 public final class Recipe extends Aggregate {
@@ -24,7 +25,7 @@ public final class Recipe extends Aggregate {
         return new Recipe(recipeId, name, preparationTime, cover);
     }
 
-    public static Recipe fromPrimitives(RecipePrimitives recipePrimitives) {
+    public static Recipe fromPrimitives(RecipePrimitives recipePrimitives) throws DomainError {
         return new Recipe(
                 RecipeId.fromString(recipePrimitives.id()),
                 recipePrimitives.name(),

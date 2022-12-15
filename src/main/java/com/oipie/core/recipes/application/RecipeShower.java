@@ -5,9 +5,11 @@ import com.oipie.core.recipes.domain.RecipeId;
 import com.oipie.core.recipes.domain.RecipeRepository;
 import com.oipie.core.recipes.domain.errors.RecipeNotFoundError;
 import com.oipie.core.shared.domain.DomainError;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class RecipeShower {
     private final RecipeRepository recipeRepository;
 

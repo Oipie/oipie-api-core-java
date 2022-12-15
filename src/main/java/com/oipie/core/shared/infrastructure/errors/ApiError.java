@@ -17,10 +17,12 @@ public record ApiError(
 
     private static final Map<DomainErrorCode, HttpStatus> DOMAIN_ERROR_CODE_HTTP_STATUS_MAP = new HashMap<>() {{
         put(DomainErrorCode.EMAIL_ALREADY_IN_USE, HttpStatus.BAD_REQUEST);
+        put(DomainErrorCode.INVALID_ID, HttpStatus.BAD_REQUEST);
         put(DomainErrorCode.INVALID_EMAIL, HttpStatus.BAD_REQUEST);
         put(DomainErrorCode.INVALID_PASSWORD, HttpStatus.BAD_REQUEST);
         put(DomainErrorCode.LOGIN_FAILED, HttpStatus.UNAUTHORIZED);
         put(DomainErrorCode.NICKNAME_ALREADY_IN_USE, HttpStatus.BAD_REQUEST);
+        put(DomainErrorCode.RECIPE_NOT_FOUND, HttpStatus.NOT_FOUND);
     }};
 
     public static ApiError create(DomainError domainError, LocalDateTime timestamp) {
