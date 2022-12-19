@@ -4,5 +4,6 @@ public record RecipePrimitives(
         String id,
         String name,
         int preparationTime,
-        String cover) {
+        String cover,
+        LikesPrimitives likes) {
 }

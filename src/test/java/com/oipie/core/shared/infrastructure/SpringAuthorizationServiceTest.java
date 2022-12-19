@@ -3,6 +3,7 @@ package com.oipie.core.shared.infrastructure;
 import com.oipie.core.shared.domain.AuthorizationService;
 import com.oipie.core.shared.domain.DomainError;
 import com.oipie.core.shared.domain.Password;
+import com.oipie.core.shared.infrastructure.auth.Roles;
 import com.oipie.core.users.fixtures.UserFixture;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,7 @@ public class SpringAuthorizationServiceTest {
 
 
     private static final String FAKE_RAW_PASSWORD = "SUPER_SECURE_PASSWORD";
-
+    private final Roles[] roles = {Roles.USER};
     @Autowired
     private AuthorizationService authorizationService;
 
@@ -28,13 +29,13 @@ public class SpringAuthorizationServiceTest {
 
     @Test
     public void encodes_a_JWT() throws DomainError {
-        String result = this.authorizationService.createJWT(UserFixture.luigi().getUserId());
-        Assertions.assertTrue(this.authorizationService.verifyJWT(result));
+        String result = this.authorizationService.createUserJWT(UserFixture.luigi().getUserId());
+        Assertions.assertTrue(this.authorizationService.verifyJWT(result, this.roles));
 
     }
 
     @Test
     public void returns_false_if_not_valid_jwt() {
-        Assertions.assertFalse(this.authorizationService.verifyJWT("FAKE_JWT"));
+        Assertions.assertFalse(this.authorizationService.verifyJWT("FAKE_JWT", this.roles));
     }
 }

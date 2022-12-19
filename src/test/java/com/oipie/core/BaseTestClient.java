@@ -5,6 +5,7 @@ import com.oipie.core.recipes.infrastructure.persistence.entities.RecipeEntity;
 import com.oipie.core.users.infrastructure.persistence.entities.UserEntity;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.http.Header;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import javax.transaction.Transactional;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = TestInjectionConfiguration.class)
 @Transactional
 public abstract class BaseTestClient {
+
+    static final String USER_JWT = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDAiLCJyb2xlIjoiVVNFUiIsImlzcyI6Ik9pcGllIiwiZXhwIjoxNjcyMDU4MTczfQ.f5tVq7f_4wQyVg0jcxW6Z-86qrQFfjn-3lKdke1byCeHQjhAzn-lPzzTwBqy8tByZUEwXmiJl_HqwJKjW09i5w";
 
     @LocalServerPort
     private int port;
@@ -33,15 +36,20 @@ public abstract class BaseTestClient {
     @BeforeEach
     @BeforeTransaction
     public final void clearDatabase() {
-        userRepository.deleteAll();
         recipeRepository.deleteAll();
+        userRepository.deleteAll();
+    }
+
+    public final RequestSpecification request(String jwt) {
+        return RestAssured.given()
+                .basePath("/api")
+                .port(this.port)
+                .contentType(ContentType.JSON)
+                .header(new Header("Authorization", jwt));
     }
 
 
     public final RequestSpecification request() {
-        return RestAssured.given()
-                .basePath("/api")
-                .port(this.port)
-                .contentType(ContentType.JSON);
+        return this.request(this.USER_JWT);
     }
 }

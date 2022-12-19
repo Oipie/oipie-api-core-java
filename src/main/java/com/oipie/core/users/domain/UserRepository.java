@@ -6,6 +6,8 @@ import java.util.Optional;
 
 public interface UserRepository {
 
+    Optional<User> findById(UserId userId);
+
     Optional<User> findByEmail(Email email) throws DomainError;
 
     boolean isNicknameInUse(String nickname);

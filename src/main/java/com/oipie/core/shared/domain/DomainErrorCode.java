@@ -7,7 +7,11 @@ public enum DomainErrorCode {
 
     INVALID_EMAIL,
     INVALID_PASSWORD,
+
+    INVALID_JWT,
     LOGIN_FAILED,
     NICKNAME_ALREADY_IN_USE,
-    RECIPE_NOT_FOUND;
+    RECIPE_NOT_FOUND,
+
+    USER_NOT_FOUND;
 }

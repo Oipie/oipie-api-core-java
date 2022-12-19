@@ -1,14 +1,19 @@
 package com.oipie.core.users.infrastructure.persistence.entities;
 
 
+import com.oipie.core.recipes.infrastructure.persistence.entities.RecipeEntity;
 import com.oipie.core.shared.domain.DomainError;
 import com.oipie.core.users.domain.User;
 import com.oipie.core.users.domain.primitives.UserPrimitives;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -27,8 +32,15 @@ public class UserEntity {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @ManyToMany(mappedBy = "likesByUsers")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Set<RecipeEntity> likes;
+
     public static UserEntity fromDomain(User user) {
-        UserPrimitives userPrimitives = user.toPrimitives();
+        return UserEntity.fromPrimitives(user.toPrimitives());
+    }
+
+    public static UserEntity fromPrimitives(UserPrimitives userPrimitives) {
         UserEntity userEntity = new UserEntity();
         userEntity.userId = userPrimitives.userId();
         userEntity.email = userPrimitives.email();
@@ -37,15 +49,16 @@ public class UserEntity {
         return userEntity;
     }
 
-
     public User toDomain() throws DomainError {
-        return User.fromPrimitives(
-                new UserPrimitives(
-                        userId,
-                        email,
-                        nickname,
-                        password
-                )
+        return User.fromPrimitives(this.toPrimitives());
+    }
+
+    public UserPrimitives toPrimitives() throws DomainError {
+        return new UserPrimitives(
+                userId,
+                email,
+                nickname,
+                password
         );
     }
 }

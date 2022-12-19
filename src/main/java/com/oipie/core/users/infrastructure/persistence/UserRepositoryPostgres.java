@@ -3,6 +3,7 @@ package com.oipie.core.users.infrastructure.persistence;
 import com.oipie.core.shared.domain.DomainError;
 import com.oipie.core.users.domain.Email;
 import com.oipie.core.users.domain.User;
+import com.oipie.core.users.domain.UserId;
 import com.oipie.core.users.domain.UserRepository;
 import com.oipie.core.users.infrastructure.persistence.entities.UserEntity;
 
@@ -15,6 +16,14 @@ public class UserRepositoryPostgres implements UserRepository {
     public UserRepositoryPostgres(UserRepositoryJPA repository) {
         this.repository = repository;
     }
+
+    @Override
+    public Optional<User> findById(UserId userId) {
+        Optional<UserEntity> userEntity = this.repository.findById(userId.toString());
+        if (userEntity.isEmpty()) return Optional.empty();
+        return Optional.of(userEntity.get().toDomain());
+    }
+
 
     @Override
     public Optional<User> findByEmail(Email email) throws DomainError {

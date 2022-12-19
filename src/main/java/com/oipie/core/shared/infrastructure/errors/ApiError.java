@@ -20,9 +20,11 @@ public record ApiError(
         put(DomainErrorCode.INVALID_ID, HttpStatus.BAD_REQUEST);
         put(DomainErrorCode.INVALID_EMAIL, HttpStatus.BAD_REQUEST);
         put(DomainErrorCode.INVALID_PASSWORD, HttpStatus.BAD_REQUEST);
+        put(DomainErrorCode.INVALID_JWT, HttpStatus.UNAUTHORIZED);
         put(DomainErrorCode.LOGIN_FAILED, HttpStatus.UNAUTHORIZED);
         put(DomainErrorCode.NICKNAME_ALREADY_IN_USE, HttpStatus.BAD_REQUEST);
         put(DomainErrorCode.RECIPE_NOT_FOUND, HttpStatus.NOT_FOUND);
+        put(DomainErrorCode.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
     }};
 
     public static ApiError create(DomainError domainError, LocalDateTime timestamp) {

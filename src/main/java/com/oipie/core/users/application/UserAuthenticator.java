@@ -27,9 +27,6 @@ public class UserAuthenticator {
         if (user.isEmpty() || !this.authorizationService.verifyPassword(user.get().getPassword(), password))
             throw new LoginAttemptFailed();
 
-
-        return this.authorizationService.createJWT(user.get().getUserId());
-
-
+        return this.authorizationService.createUserJWT(user.get().getUserId());
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.Date;
 
 public class SpringAuthorizationService implements AuthorizationService {
@@ -20,9 +21,14 @@ public class SpringAuthorizationService implements AuthorizationService {
     @Value("${authorization.jwt.secret}")
     private String jwtSecretKey;
 
+    public static String getJwtSub(String authorizationHeader) {
+        final int jwtBeginIndex = 7;
+        String jwt = authorizationHeader.substring(jwtBeginIndex);
+        return JWT.decode(jwt).getSubject();
+    }
+
     @Override
     public Password hashPassword(String password) {
-
         String encodedPassword = new BCryptPasswordEncoder(PASSWORD_STRENGTH, new SecureRandom()).encode(password);
         return Password.fromString(encodedPassword);
     }
@@ -34,28 +40,28 @@ public class SpringAuthorizationService implements AuthorizationService {
     }
 
     @Override
-    public String createJWT(UserId userId) {
+    public String createUserJWT(UserId userId) {
         Date expireTime = new Date(System.currentTimeMillis() + DEFAULT_EXPIRE_TIME);
 
         return JWT.create()
                 .withIssuer(DEFAULT_ISSUER)
+                .withClaim("role", Roles.USER.name())
                 .withExpiresAt(expireTime)
                 .withSubject(userId.toString())
                 .sign(Algorithm.HMAC512(jwtSecretKey));
     }
 
     @Override
-    public boolean verifyJWT(String jwt) {
+    public boolean verifyJWT(String jwt, Roles[] roles) {
         try {
-            JWT.require(Algorithm.HMAC512(jwtSecretKey))
+            final String jwtRole = JWT.require(Algorithm.HMAC512(jwtSecretKey))
                     .withIssuer(DEFAULT_ISSUER)
                     .build()
-                    .verify(jwt);
-            return true;
+                    .verify(jwt).getClaim("role").asString();
+
+            return Arrays.stream(roles).anyMatch((role) -> role.name().equals(jwtRole));
         } catch (Exception e) {
             return false;
         }
     }
-
-
 }
