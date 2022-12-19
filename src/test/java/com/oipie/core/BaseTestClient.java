@@ -20,7 +20,7 @@ import javax.transaction.Transactional;
 @Transactional
 public abstract class BaseTestClient {
 
-    static final String USER_JWT = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDAiLCJyb2xlIjoiVVNFUiIsImlzcyI6Ik9pcGllIiwiZXhwIjoxNjcyMDU4MTczfQ.f5tVq7f_4wQyVg0jcxW6Z-86qrQFfjn-3lKdke1byCeHQjhAzn-lPzzTwBqy8tByZUEwXmiJl_HqwJKjW09i5w";
+    static final String USER_JWT = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDAiLCJyb2xlIjoiVVNFUiIsImlzcyI6Ik9pcGllIiwiZXhwIjoxOTAwODg2NDAwfQ.Re7UPE5D1cANyAH9t4TVngV0JIpkVtpSHQZ99T3p7QNGnxz_6dQLtPJ9RzIiOF0z-HXSa7brSzzAoI_m-Ys62w";
 
     @LocalServerPort
     private int port;
