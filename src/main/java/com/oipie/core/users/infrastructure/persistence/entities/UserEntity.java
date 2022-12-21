@@ -5,8 +5,6 @@ import com.oipie.core.recipes.infrastructure.persistence.entities.RecipeEntity;
 import com.oipie.core.shared.domain.DomainError;
 import com.oipie.core.users.domain.User;
 import com.oipie.core.users.domain.primitives.UserPrimitives;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,7 +31,6 @@ public class UserEntity {
     private String password;
 
     @ManyToMany(mappedBy = "likesByUsers")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<RecipeEntity> likes;
 
     public static UserEntity fromDomain(User user) {

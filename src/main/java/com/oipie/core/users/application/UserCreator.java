@@ -46,6 +46,4 @@ public class UserCreator {
         this.userRepository.save(user);
         return user;
     }
-
-
 }

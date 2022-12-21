@@ -1,6 +1,7 @@
 package com.oipie.core.users.infrastructure.persistence;
 
 
+import com.oipie.core.BaseTestClient;
 import com.oipie.core.shared.domain.DomainError;
 import com.oipie.core.users.domain.Email;
 import com.oipie.core.users.domain.User;
@@ -9,16 +10,10 @@ import com.oipie.core.users.fixtures.UserFixture;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
-
-@SpringBootTest
-@Transactional
-public class UserRepositoryPostgresTest {
-
+public class UserRepositoryPostgresTest extends BaseTestClient {
 
     @Autowired
     UserRepository userRepository;
@@ -47,7 +42,6 @@ public class UserRepositoryPostgresTest {
 
     @Test
     public void returns_false_if_nickname_is_not_used() {
-
         boolean result = this.userRepository.isNicknameInUse("FAKE_NICKNAME_NON_IN_USE");
         Assertions.assertFalse(result);
     }

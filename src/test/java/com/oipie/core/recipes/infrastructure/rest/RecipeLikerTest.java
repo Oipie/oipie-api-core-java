@@ -3,6 +3,7 @@ package com.oipie.core.recipes.infrastructure.rest;
 import com.oipie.core.BaseTestClient;
 import com.oipie.core.recipes.infrastructure.rest.dtos.CreateRecipeRequestDTO;
 import com.oipie.core.users.infrastructure.rest.dtos.CreateUserRequestDTO;
+import com.oipie.core.users.infrastructure.rest.dtos.LoginUserRequestDTO;
 import io.restassured.response.ValidatableResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,8 @@ public class RecipeLikerTest extends BaseTestClient {
 
     private String createdRecipeId;
 
+    private String userJwt;
+
     @BeforeEach
     public void beforeEach() {
         CreateUserRequestDTO userRequest = new CreateUserRequestDTO(FAKE_EMAIL, FAKE_NICKNAME, FAKE_PASSWORD);
@@ -38,6 +41,15 @@ public class RecipeLikerTest extends BaseTestClient {
                 .then();
 
         userResponse.statusCode(HttpStatus.CREATED.value());
+
+        LoginUserRequestDTO loginRequest = new LoginUserRequestDTO(FAKE_EMAIL, FAKE_PASSWORD);
+
+        ValidatableResponse loginResponse = this.request()
+                .body(loginRequest)
+                .post("/v1/users/login")
+                .then();
+
+        userJwt = loginResponse.extract().body().path("jwt");
 
         CreateRecipeRequestDTO recipeRequest = new CreateRecipeRequestDTO(PUMPKIN_NAME, PUMPKIN_PREPARATION_TIME, PUMPKIN_COVER);
 
@@ -53,13 +65,13 @@ public class RecipeLikerTest extends BaseTestClient {
 
     @Test
     public void adds_user_like_to_recipe() {
-        ValidatableResponse likeResponse = this.request()
+        ValidatableResponse likeResponse = this.request(userJwt)
                 .post("/v1/recipes/" + createdRecipeId + "/like")
                 .then();
 
         likeResponse.statusCode(HttpStatus.OK.value());
 
-        ValidatableResponse recipeResponse = this.request()
+        ValidatableResponse recipeResponse = this.request(userJwt)
                 .get("/v1/recipes/" + createdRecipeId)
                 .then();
 

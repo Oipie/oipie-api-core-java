@@ -6,9 +6,11 @@ import com.oipie.core.recipes.domain.RecipeRepository;
 import com.oipie.core.recipes.infrastructure.persistence.entities.RecipeEntity;
 import com.oipie.core.shared.domain.DomainError;
 import com.oipie.core.shared.domain.PageResult;
+import com.oipie.core.users.domain.UserId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.List;
 import java.util.Optional;
 
 public class RecipeRepositoryPostgres implements RecipeRepository {
@@ -41,5 +43,11 @@ public class RecipeRepositoryPostgres implements RecipeRepository {
                 page,
                 limit,
                 recipesEntities.getTotalElements());
+    }
+
+    @Override
+    public List<Recipe> getUserLikedRecipes(UserId userId) {
+        List<RecipeEntity> recipesEntities = this.repository.findDistinctByLikesByUsersUserIdEquals(userId.toString());
+        return recipesEntities.stream().map(RecipeEntity::toDomain).toList();
     }
 }

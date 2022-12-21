@@ -64,5 +64,4 @@ public class RecipeEntity {
 
         return Recipe.fromPrimitives(recipePrimitives);
     }
-
 }

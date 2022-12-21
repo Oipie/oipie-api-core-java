@@ -4,10 +4,12 @@ import com.oipie.core.recipes.application.RecipeCreator;
 import com.oipie.core.recipes.application.RecipeLiker;
 import com.oipie.core.recipes.application.RecipeLister;
 import com.oipie.core.recipes.application.RecipeShower;
+import com.oipie.core.recipes.application.UserLikedRecipesLister;
 import com.oipie.core.recipes.domain.Recipe;
 import com.oipie.core.recipes.domain.RecipeId;
 import com.oipie.core.recipes.infrastructure.rest.dtos.CreateRecipeRequestDTO;
 import com.oipie.core.recipes.infrastructure.rest.dtos.RecipeResponseDTO;
+import com.oipie.core.recipes.infrastructure.rest.dtos.UserLikedRecipesResponseDTO;
 import com.oipie.core.shared.domain.DomainError;
 import com.oipie.core.shared.domain.PageResult;
 import com.oipie.core.shared.infrastructure.annotations.RolesAllowed;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/recipes")
@@ -41,11 +44,14 @@ public class RecipesController {
 
     private final RecipeLiker recipeLiker;
 
-    public RecipesController(RecipeCreator recipeCreator, RecipeShower recipeShower, RecipeLister recipeLister, RecipeLiker recipeLiker) {
+    private final UserLikedRecipesLister userLikedRecipesLister;
+
+    public RecipesController(RecipeCreator recipeCreator, RecipeShower recipeShower, RecipeLister recipeLister, RecipeLiker recipeLiker, UserLikedRecipesLister userLikedRecipesLister) {
         this.recipeCreator = recipeCreator;
         this.recipeShower = recipeShower;
         this.recipeLister = recipeLister;
         this.recipeLiker = recipeLiker;
+        this.userLikedRecipesLister = userLikedRecipesLister;
     }
 
     @Transactional
@@ -88,7 +94,17 @@ public class RecipesController {
     @RolesAllowed({Roles.USER})
     public void addLike(@RequestHeader(name = "Authorization") String authorizationHeader, @PathVariable("recipeId") String recipeId) throws DomainError {
         String userId = SpringAuthorizationService.getJwtSub(authorizationHeader);
-
         this.recipeLiker.execute(RecipeId.fromString(recipeId), UserId.fromString(userId));
+    }
+
+    @Transactional
+    @GetMapping("/user-liked-recipes")
+    @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({Roles.USER})
+    public UserLikedRecipesResponseDTO userLikedRecipes(@RequestHeader(name = "Authorization") String authorizationHeader) {
+        String userId = SpringAuthorizationService.getJwtSub(authorizationHeader);
+        List<Recipe> userLikedRecipes = this.userLikedRecipesLister.execute(UserId.fromString(userId));
+
+        return UserLikedRecipesResponseDTO.fromDomain(userLikedRecipes);
     }
 }
