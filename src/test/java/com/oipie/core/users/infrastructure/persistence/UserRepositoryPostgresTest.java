@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
+import static com.oipie.core.users.fixtures.UserFixture.LUIGI_PRIMITIVES;
+
 public class UserRepositoryPostgresTest extends BaseTestClient {
 
     @Autowired
@@ -22,8 +24,8 @@ public class UserRepositoryPostgresTest extends BaseTestClient {
     public void it_should_save_user() throws DomainError {
         User luigi = UserFixture.luigi();
         this.userRepository.save(luigi);
-        Optional<User> result = this.userRepository.findByEmail(Email.fromString(UserFixture.LUIGI_PRIMITIVES.email()));
-        Assertions.assertEquals(result.get(), luigi, "Retrieved user is not equal ");
+        Optional<User> result = this.userRepository.findByEmail(Email.fromString(LUIGI_PRIMITIVES.email()));
+        Assertions.assertEquals(luigi, result.get(), "Retrieved user is not equal ");
     }
 
     @Test
@@ -36,7 +38,7 @@ public class UserRepositoryPostgresTest extends BaseTestClient {
     public void returns_true_if_nickname_is_used() throws DomainError {
         User luigi = UserFixture.luigi();
         this.userRepository.save(luigi);
-        boolean result = this.userRepository.isNicknameInUse(UserFixture.LUIGI_PRIMITIVES.nickname());
+        boolean result = this.userRepository.isNicknameInUse(LUIGI_PRIMITIVES.nickname());
         Assertions.assertTrue(result);
     }
 
